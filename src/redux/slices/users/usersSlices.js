@@ -8,6 +8,7 @@ const INITIAL_STATE = {
   error: null,
   users: [],
   users: null,
+  success: false,
   isUpdated: false,
   isDeleted: false,
   isEmailSent: false,
@@ -15,7 +16,9 @@ const INITIAL_STATE = {
   profile: {},
   userAuth: {
     error: null,
-    userInfo: {},
+    userInfo: localStorage.getItem("userInfo")
+      ? JSON.parse(localStorage.getItem("userInfo"))
+      : null,
   },
 };
 
@@ -27,12 +30,15 @@ export const loginAction = createAsyncThunk(
     // make request
 
     try {
-      const response = await axios.post(
-        "https://localhost:9080/api/v1/users/login",
+      const { data } = await axios.post(
+        "http://localhost:9080/api/v1/users/login",
         payload
       );
 
-      return response;
+      // save the user to local storage
+      localStorage.setItem("userInfo", JSON.stringify(data));
+
+      return data;
     } catch (error) {
       return rejectWithValue(error?.response?.data);
     }
@@ -53,6 +59,7 @@ const usersSlice = createSlice({
     // handle fulfilled state
     builder.addCase(loginAction.fulfilled, (state, action) => {
       state.userAuth.userInfo = action.payload;
+      state.success = true;
       state.loading = false;
       state.error = null;
     });

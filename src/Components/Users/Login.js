@@ -1,11 +1,18 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Link } from "react-router-dom";
+import { loginAction } from "../../redux/slices/users/usersSlices";
+import LoadingComponent from "../Alert/LoadingComponent";
+import ErrorMsg from "../Alert/ErrorMsg";
+import SuccessMsg from "../Alert/SuccessMsg";
 
 const Login = () => {
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
-    password: "",
-    username: "",
+    password: "pushkar2192",
+    username: "pushkar2192",
   });
 
   //handle form change
@@ -16,6 +23,13 @@ const Login = () => {
   //handle form submit
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(formData);
+    dispatch(
+      loginAction({
+        username: formData.username,
+        password: formData.password,
+      })
+    );
 
     // reset form
     setFormData({
@@ -23,14 +37,22 @@ const Login = () => {
       username: "",
     });
   };
+
   //store data
+  const { userAuth, loading, error, success } = useSelector(
+    (state) => state?.users
+  );
+  // console.log(userAuth, loading, error);
 
   return (
     <section className="py-16 xl:pb-56 bg-white overflow-hidden">
       <div className="container px-4 mx-auto">
         <div className="text-center max-w-md mx-auto">
           <a className="mb-36 inline-block" href="#">
-            <img src="flaro-assets/logos/flaro-logo-black-xl.svg" alt />
+            <img
+              src="flaro-assets/logos/flaro-logo-black-xl.svg"
+              alt="Not found"
+            />
           </a>
           <h2 className="mb-4 text-6xl md:text-7xl text-center font-bold font-heading tracking-px-n leading-tight">
             Login to your account
@@ -38,6 +60,13 @@ const Login = () => {
           <p className="mb-12 font-medium text-lg text-gray-600 leading-normal">
             Enter your details below.
           </p>
+
+          {/* Display error  */}
+          {error && <ErrorMsg message={error?.message} />}
+
+          {/* Display success  */}
+          {success && <SuccessMsg message="Login Success" />}
+
           <form onSubmit={handleSubmit}>
             <label className="block mb-5">
               <input
@@ -62,13 +91,17 @@ const Login = () => {
                 onChange={handleChange}
               />
             </label>
-            <button
-              className="mb-8 py-4 px-9 w-full text-white font-semibold border border-indigo-700 rounded-xl shadow-4xl focus:ring focus:ring-indigo-300 bg-indigo-600 hover:bg-indigo-700 transition ease-in-out duration-200"
-              type="submit"
-            >
-              Login Account
-            </button>
 
+            {loading ? (
+              <LoadingComponent />
+            ) : (
+              <button
+                className="mb-8 py-4 px-9 w-full text-white font-semibold border border-indigo-700 rounded-xl shadow-4xl focus:ring focus:ring-indigo-300 bg-indigo-600 hover:bg-indigo-700 transition ease-in-out duration-200"
+                type="submit"
+              >
+                Login Account
+              </button>
+            )}
             <p className="font-medium">
               <span className="m-2">Forgot Password?</span>
               <Link
