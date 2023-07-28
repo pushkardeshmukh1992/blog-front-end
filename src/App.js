@@ -1,13 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Homepage from "./Components/HomePage";
+import Login from "./Components/Users/Login";
 
 function App() {
-  const HomePage = () => {
-    return <h1>Welcome to Blogify</h1>;
-  };
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="" element={<HomePage />}></Route>
+        <Route path="" element={<Homepage />}></Route>
+        <Route path="/login" element={<Login />}></Route>
       </Routes>
     </BrowserRouter>
   );
