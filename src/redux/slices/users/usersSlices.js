@@ -23,7 +23,6 @@ const INITIAL_STATE = {
 };
 
 // Login action
-
 export const loginAction = createAsyncThunk(
   "users/login",
   async (payload, { rejectWithValue, getState, dispatch }) => {
@@ -44,6 +43,14 @@ export const loginAction = createAsyncThunk(
     }
   }
 );
+
+// Logout action
+export const logoutAction = createAsyncThunk("users/logout", async () => {
+  // remove token from local storage
+  console.log("removing token");
+  localStorage.removeItem("userInfo");
+  return true;
+});
 
 // Users slices
 const usersSlice = createSlice({
