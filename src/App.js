@@ -5,6 +5,7 @@ import UserProfile from "./Components/Users/UserProfile";
 import PublicNavbar from "./Components/Navbar/PublicNavbar";
 import PrivateNavbar from "./Components/Navbar/PrivateNavbar";
 import { useSelector } from "react-redux";
+import ProtectedRoute from "./Components/AuthRoute/ProtectedRoute";
 
 function App() {
   const { userAuth } = useSelector((state) => state?.users);
@@ -20,7 +21,14 @@ function App() {
         <Route path="/login" element={<Login />}></Route>
 
         {/* Profile */}
-        <Route path="/user-profile" element={<UserProfile />}></Route>
+        <Route
+          path="/user-profile"
+          element={
+            <ProtectedRoute>
+              <UserProfile />
+            </ProtectedRoute>
+          }
+        ></Route>
       </Routes>
     </BrowserRouter>
   );
