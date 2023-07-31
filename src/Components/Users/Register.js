@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Link, useNavigate } from "react-router-dom";
+import { registerAction } from "../../redux/slices/users/usersSlices";
 
 const Register = () => {
   //! Nvaigation hook
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -19,8 +22,16 @@ const Register = () => {
 
   //handle form submit
   const handleSubmit = (e) => {
+    console.log("Data form");
     e.preventDefault();
 
+    dispatch(
+      registerAction({
+        username: formData.username,
+        password: formData.password,
+        email: formData?.email,
+      })
+    );
     // reset form
     setFormData({
       email: "",
@@ -29,8 +40,17 @@ const Register = () => {
     });
   };
 
+  //store data
+  const { user } = useSelector((state) => state?.users);
+
+  useEffect(() => {
+    if (user?.status === "success") {
+      navigate("/login");
+    }
+  }, [user?.status]);
+
   return (
-    <form className="w-full pl-2 lg:w-1/2">
+    <form onSubmit={handleSubmit} className="w-full pl-2 lg:w-1/2">
       <div className="flex flex-col items-center p-10 xl:px-24 xl:pb-12 bg-white lg:max-w-xl lg:ml-auto rounded-4xl shadow-2xl">
         <h2 className="mb-4 text-2xl md:text-3xl text-coolGray-900 font-bold text-center">
           Join our community
