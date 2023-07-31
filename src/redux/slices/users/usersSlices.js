@@ -56,6 +56,9 @@ export const registerAction = createAsyncThunk(
         payload
       );
 
+      // save the user to local storage
+      localStorage.setItem("userInfo", JSON.stringify(data.newUser));
+
       return data;
     } catch (error) {
       return rejectWithValue(error?.response?.data);
@@ -102,6 +105,7 @@ const usersSlice = createSlice({
 
     // handle fulfilled state
     builder.addCase(registerAction.fulfilled, (state, action) => {
+      state.userAuth.userInfo = action.payload.newUser;
       state.user = action.payload;
       state.success = true;
       state.loading = false;

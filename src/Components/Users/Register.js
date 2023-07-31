@@ -3,6 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { Link, useNavigate } from "react-router-dom";
 import { registerAction } from "../../redux/slices/users/usersSlices";
+import ErrorMsg from "../Alert/ErrorMsg";
+import SuccessMsg from "../Alert/SuccessMsg";
+import LoadingComponent from "../Alert/LoadingComponent";
 
 const Register = () => {
   //! Nvaigation hook
@@ -41,13 +44,18 @@ const Register = () => {
   };
 
   //store data
-  const { user } = useSelector((state) => state?.users);
+  const { userAuth, loading, error, success } = useSelector(
+    (state) => state?.users
+  );
+  // console.log(userAuth, loading, error);
+
+  // Redirect
 
   useEffect(() => {
-    if (user?.status === "success") {
+    if (userAuth?.userInfo) {
       navigate("/login");
     }
-  }, [user?.status]);
+  }, [userAuth]);
 
   return (
     <form onSubmit={handleSubmit} className="w-full pl-2 lg:w-1/2">
@@ -55,6 +63,12 @@ const Register = () => {
         <h2 className="mb-4 text-2xl md:text-3xl text-coolGray-900 font-bold text-center">
           Join our community
         </h2>
+
+        {/* Display error  */}
+        {error && <ErrorMsg message={error?.message} />}
+
+        {/* Display success  */}
+        {success && <SuccessMsg message="Login Success" />}
 
         <h3 className="mb-7 text-base md:text-lg text-coolGray-500 font-medium text-center">
           Discover a world of like-minded individuals who share your interests,
@@ -94,12 +108,16 @@ const Register = () => {
           />
         </label>
 
-        <button
-          className="mb-4 inline-block py-3 px-7 w-full leading-6 text-green-50 font-medium text-center bg-green-500 hover:bg-green-600 focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 rounded-md"
-          type="submit"
-        >
-          Get Started
-        </button>
+        {loading ? (
+          <LoadingComponent />
+        ) : (
+          <button
+            className="mb-4 inline-block py-3 px-7 w-full leading-6 text-green-50 font-medium text-center bg-green-500 hover:bg-green-600 focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 rounded-md"
+            type="submit"
+          >
+            Get Started
+          </button>
+        )}
 
         {/* <div className="flex items-center mb-4 w-full text-xs text-coolGray-400">
           <div className="flex-1 h-px bg-coolGray-100" />
