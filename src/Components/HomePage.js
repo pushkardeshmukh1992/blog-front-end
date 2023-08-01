@@ -1,5 +1,6 @@
 import React from "react";
 import Register from "./Users/Register";
+import PublicPosts from "./Posts/PublicPosts";
 
 const Homepage = () => {
   return (
@@ -39,7 +40,7 @@ const Homepage = () => {
                   Header
                 </span>
                 <h1 className="mb-6 text-3xl md:text-5xl lg:text-6xl leading-tight text-coolGray-900 font-bold tracking-tight">
-                  A small business is only as good as its tools.
+                  Aa small business is only as good as its tools.
                 </h1>
                 <p className="mb-8 text-lg md:text-xl leading-7 text-coolGray-500 font-medium">
                   Lorem ipsum dolor sit amet, consectetur adipisng.
@@ -81,6 +82,7 @@ const Homepage = () => {
         </div>
       </section>
       {/* Home posts list */}
+      <PublicPosts />
       {/* <HomePostsLists /> */}
     </div>
   );
