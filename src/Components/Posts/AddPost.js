@@ -1,6 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Select from "react-select";
+import { fetchCategoriesAction } from "../../redux/slices/categories/categoriesSlice";
 
 const AddPost = () => {
+  const dispatch = useDispatch();
+
+  const { categories } = useSelector((state) => state?.categories);
+  console.log(categories?.categories);
+
+  const options = categories?.categories.map((category) => {
+    return { value: category?._id, label: category?.name };
+  });
+
   const [formData, setFormData] = useState({
     title: "",
     image: null,
@@ -8,8 +20,26 @@ const AddPost = () => {
     content: "",
   });
 
+  // dummy categories
+  // const options = [
+  //   {
+  //     value: "technology",
+  //     label: "Technology",
+  //   },
+  //   {
+  //     value: "business",
+  //     label: "Business",
+  //   },
+  // ];
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // react select handle change
+
+  const handleSelectChange = (selectedOption) => {
+    setFormData({ ...formData, category: selectedOption.value });
   };
 
   const handleSubmit = (e) => {
@@ -23,6 +53,10 @@ const AddPost = () => {
       content: "",
     });
   };
+
+  useEffect(() => {
+    dispatch(fetchCategoriesAction());
+  }, [dispatch]);
 
   return (
     <div className="min-h-screen flex items-center justify-center">
@@ -56,6 +90,16 @@ const AddPost = () => {
             {/* error here */}
           </label>
           {/* category here */}
+          <label className="mb-4 flex flex-col w-full">
+            <span className="mb-1 text-coolGray-800 font-medium">Category</span>
+            <Select
+              options={options}
+              name="category"
+              onChange={handleSelectChange}
+            />
+            {/* error here */}
+          </label>
+
           <label className="mb-4 flex flex-col w-full">
             <span className="mb-1 text-coolGray-800 font-medium">Content</span>
             <textarea
