@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { resetErrorAction, resetSuccessAction } from "../global/globalSlices";
+import BASE_URL from "../../../utils/baseURL";
 
 // initialState
 
@@ -26,10 +27,7 @@ export const loginAction = createAsyncThunk(
     // make request
 
     try {
-      const { data } = await axios.post(
-        "http://localhost:9080/api/v1/users/login",
-        payload
-      );
+      const { data } = await axios.post(`${BASE_URL}/users/login`, payload);
 
       // save the user to local storage
       localStorage.setItem("userInfo", JSON.stringify(data));
@@ -48,10 +46,7 @@ export const registerAction = createAsyncThunk(
     // make request
 
     try {
-      const { data } = await axios.post(
-        "http://localhost:9080/api/v1/users/register",
-        payload
-      );
+      const { data } = await axios.post(`${BASE_URL}/users/register`, payload);
 
       // save the user to local storage
       localStorage.setItem("userInfo", JSON.stringify(data.newUser));

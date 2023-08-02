@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { resetErrorAction, resetSuccessAction } from "../global/globalSlices";
+import BASE_URL from "../../../utils/baseURL";
 
 // initialState
 
@@ -19,10 +20,7 @@ export const fetchPublicPosts = createAsyncThunk(
     // make request
 
     try {
-      const { data } = await axios.get(
-        "http://localhost:9080/api/v1/posts/public",
-        payload
-      );
+      const { data } = await axios.get(`${BASE_URL}/posts/public`, payload);
 
       return data;
     } catch (error) {
