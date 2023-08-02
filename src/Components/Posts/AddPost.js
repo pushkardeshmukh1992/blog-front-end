@@ -42,6 +42,10 @@ const AddPost = () => {
     setFormData({ ...formData, category: selectedOption.value });
   };
 
+  const handleImageChange = (event) => {
+    setFormData({ ...formData, image: event.target.files[0] });
+  };
+
   const handleSubmit = (e) => {
     console.log(formData);
     e.preventDefault();
@@ -86,6 +90,7 @@ const AddPost = () => {
               className="py-3 px-3 leading-5 w-full text-coolGray-400 font-normal border border-coolGray-200 outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 rounded-lg shadow-sm"
               type="file"
               name="image"
+              onChange={handleImageChange}
             />
             {/* error here */}
           </label>
