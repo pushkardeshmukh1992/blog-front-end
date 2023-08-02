@@ -6,7 +6,6 @@ import PublicNavbar from "./Components/Navbar/PublicNavbar";
 import PrivateNavbar from "./Components/Navbar/PrivateNavbar";
 import { useSelector } from "react-redux";
 import ProtectedRoute from "./Components/AuthRoute/ProtectedRoute";
-import PublicPosts from "./Components/Posts/PublicPosts";
 import AddPost from "./Components/Posts/AddPost";
 
 function App() {

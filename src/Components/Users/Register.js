@@ -44,7 +44,7 @@ const Register = () => {
   };
 
   //store data
-  const { userAuth, loading, error, success } = useSelector(
+  const { user, userAuth, loading, error, success } = useSelector(
     (state) => state?.users
   );
   // console.log(userAuth, loading, error);
@@ -52,10 +52,10 @@ const Register = () => {
   // Redirect
 
   useEffect(() => {
-    if (userAuth?.userInfo) {
+    if (user?.status === "success") {
       navigate("/login");
     }
-  }, [userAuth]);
+  }, [user?.status]);
 
   return (
     <form onSubmit={handleSubmit} className="w-full pl-2 lg:w-1/2">

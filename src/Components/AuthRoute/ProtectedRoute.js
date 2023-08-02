@@ -7,6 +7,7 @@ const ProtectedRoute = ({ children }) => {
   const isLogin = userAuth?.userInfo?.token;
 
   if (!isLogin) {
+    console.log("navigateing too login");
     return <Navigate to="/login" />;
   }
 

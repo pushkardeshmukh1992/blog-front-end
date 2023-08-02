@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
 import { fetchCategoriesAction } from "../../redux/slices/categories/categoriesSlice";
+import { addPostAction } from "../../redux/slices/posts/postsSlice";
 
 const AddPost = () => {
   const dispatch = useDispatch();
@@ -9,7 +10,7 @@ const AddPost = () => {
   const { categories } = useSelector((state) => state?.categories);
   console.log(categories?.categories);
 
-  const options = categories?.categories.map((category) => {
+  const options = categories?.categories?.map((category) => {
     return { value: category?._id, label: category?.name };
   });
 
@@ -19,18 +20,6 @@ const AddPost = () => {
     category: null,
     content: "",
   });
-
-  // dummy categories
-  // const options = [
-  //   {
-  //     value: "technology",
-  //     label: "Technology",
-  //   },
-  //   {
-  //     value: "business",
-  //     label: "Business",
-  //   },
-  // ];
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -49,6 +38,8 @@ const AddPost = () => {
   const handleSubmit = (e) => {
     console.log(formData);
     e.preventDefault();
+
+    dispatch(addPostAction(formData));
 
     setFormData({
       title: "",

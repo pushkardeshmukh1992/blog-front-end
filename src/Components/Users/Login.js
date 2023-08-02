@@ -51,7 +51,7 @@ const Login = () => {
     if (userAuth?.userInfo?.token) {
       navigate("/user-profile");
     }
-  }, [userAuth]);
+  }, [userAuth?.userInfo?.token]);
 
   return (
     <section className="py-16 xl:pb-56 bg-white overflow-hidden">

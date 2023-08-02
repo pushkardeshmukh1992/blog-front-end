@@ -49,7 +49,7 @@ export const registerAction = createAsyncThunk(
       const { data } = await axios.post(`${BASE_URL}/users/register`, payload);
 
       // save the user to local storage
-      localStorage.setItem("userInfo", JSON.stringify(data.newUser));
+      // localStorage.setItem("userInfo", JSON.stringify(data.newUser));
 
       return data;
     } catch (error) {
@@ -97,7 +97,7 @@ const usersSlice = createSlice({
 
     // handle fulfilled state
     builder.addCase(registerAction.fulfilled, (state, action) => {
-      state.userAuth.userInfo = action.payload.newUser;
+      // state.userAuth.userInfo = action.payload.newUser;
       state.user = action.payload;
       state.success = true;
       state.loading = false;
