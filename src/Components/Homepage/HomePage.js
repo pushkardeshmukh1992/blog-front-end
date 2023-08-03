@@ -1,6 +1,6 @@
 import React from "react";
-import Register from "./Users/Register";
-import PublicPosts from "./Posts/PublicPosts";
+import Register from "../Users/Register";
+import PublicPosts from "../Posts/PublicPosts";
 
 const Homepage = () => {
   return (

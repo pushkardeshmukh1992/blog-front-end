@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Homepage from "./Components/HomePage";
+import Homepage from "./Components/Homepage/HomePage";
 import Login from "./Components/Users/Login";
 import UserProfile from "./Components/Users/UserProfile";
 import PublicNavbar from "./Components/Navbar/PublicNavbar";
@@ -7,6 +7,7 @@ import PrivateNavbar from "./Components/Navbar/PrivateNavbar";
 import { useSelector } from "react-redux";
 import ProtectedRoute from "./Components/AuthRoute/ProtectedRoute";
 import AddPost from "./Components/Posts/AddPost";
+import PostDetails from "./Components/Posts/PostDetails";
 
 function App() {
   const { userAuth } = useSelector((state) => state?.users);
@@ -39,6 +40,16 @@ function App() {
           element={
             <ProtectedRoute>
               <AddPost />
+            </ProtectedRoute>
+          }
+        ></Route>
+
+        {/* Post Details */}
+        <Route
+          path="/post/:postId"
+          element={
+            <ProtectedRoute>
+              <PostDetails />
             </ProtectedRoute>
           }
         ></Route>
