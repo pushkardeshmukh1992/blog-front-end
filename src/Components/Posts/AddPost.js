@@ -10,8 +10,10 @@ import SuccessMsg from "../Alert/SuccessMsg";
 const AddPost = () => {
   const dispatch = useDispatch();
 
+  // Error state
+  const [errors, setErrors] = useState({});
+
   const { categories } = useSelector((state) => state?.categories);
-  console.log(categories?.categories);
 
   const options = categories?.categories?.map((category) => {
     return { value: category?._id, label: category?.name };
@@ -23,6 +25,26 @@ const AddPost = () => {
     category: null,
     content: "",
   });
+
+  // 1. validate form
+  const validateForm = (data) => {
+    let errors = {};
+
+    if (!data.title) errors.title = "Title is required";
+    if (!data.image) errors.image = "Image is required";
+    if (!data.category) errors.category = "Category is required";
+    if (!data.content) errors.content = "Content is required";
+
+    return errors;
+  };
+
+  // 2. handle blur
+  const handleBlur = (e) => {
+    const { name } = e.target;
+    const formErrors = validateForm(formData);
+    setErrors({ ...errors, [name]: formErrors[name] });
+    console.log(formErrors);
+  };
 
   const { post, error, loading, success } = useSelector(
     (state) => state?.posts
@@ -43,17 +65,23 @@ const AddPost = () => {
   };
 
   const handleSubmit = (e) => {
-    console.log(formData);
     e.preventDefault();
 
-    dispatch(addPostAction(formData));
+    const errors = validateForm(formData);
+    setErrors(errors);
 
-    setFormData({
-      title: "",
-      image: null,
-      category: null,
-      content: "",
-    });
+    if (Object.keys(errors).length === 0) {
+      console.log(formData);
+
+      dispatch(addPostAction(formData));
+
+      setFormData({
+        title: "",
+        image: null,
+        category: null,
+        content: "",
+      });
+    }
   };
 
   useEffect(() => {
@@ -83,8 +111,10 @@ const AddPost = () => {
               name="title"
               value={formData.title}
               onChange={handleChange}
+              onBlur={handleBlur}
             />
             {/* error here */}
+            {errors?.title && <p className="text-red-500">{errors.title}</p>}
           </label>
           <label className="mb-4 flex flex-col w-full">
             <span className="mb-1 text-coolGray-800 font-medium">Image</span>
@@ -93,8 +123,10 @@ const AddPost = () => {
               type="file"
               name="image"
               onChange={handleImageChange}
+              onBlur={handleBlur}
             />
             {/* error here */}
+            {errors?.image && <p className="text-red-500">{errors.image}</p>}
           </label>
           {/* category here */}
           <label className="mb-4 flex flex-col w-full">
@@ -103,8 +135,12 @@ const AddPost = () => {
               options={options}
               name="category"
               onChange={handleSelectChange}
+              onBlur={handleBlur}
             />
             {/* error here */}
+            {errors?.category && (
+              <p className="text-red-500">{errors.category}</p>
+            )}
           </label>
 
           <label className="mb-4 flex flex-col w-full">
@@ -115,8 +151,12 @@ const AddPost = () => {
               name="content"
               value={formData.content}
               onChange={handleChange}
+              onBlur={handleBlur}
             />
           </label>
+
+          {errors?.content && <p className="text-red-500">{errors.content}</p>}
+
           {/* button */}
           {loading ? (
             <LoadingComponent />
